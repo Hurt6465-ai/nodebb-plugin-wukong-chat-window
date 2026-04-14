@@ -1,21 +1,26 @@
 {
   "id": "nodebb-plugin-wukong-chat-window",
-  "name": "WuKong Chat Window",
-  "description": "Same-origin standalone chat page for NodeBB + WuKongIM",
+  "name": "Wukong Chat Window",
+  "description": "Standalone messages list and standalone Wukong chat page for mobile-first NodeBB.",
+  "url": "https://github.com/Hurt6465-ai/nodebb-plugin-wukong-chat-window",
   "library": "library.js",
   "staticDirs": {
     "lib": "public/lib"
   },
-  "scss": [
-    "public/scss/chat-app.scss"
-  ],
-  "scripts": [
-    "public/lib/link-rewriter.js"
-  ],
   "templates": "templates",
   "languages": "language",
   "hooks": [
-    { "hook": "static:app.load", "method": "init" },
-    { "hook": "action:user.create", "method": "onUserCreate" }
+    {
+      "hook": "static:app.load",
+      "method": "init"
+    },
+    {
+      "hook": "action:user.create",
+      "method": "onUserCreate"
+    },
+    {
+      "hook": "filter:admin.header.build",
+      "method": "addAdminNavigation"
+    }
   ]
 }

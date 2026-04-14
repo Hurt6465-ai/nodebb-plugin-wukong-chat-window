@@ -1,0 +1,7 @@
+{
+  "name": "nodebb-plugin-wukong-chat-window",
+  "version": "0.2.2",
+  "description": "Standalone messages list + chat window for NodeBB + WuKongIM",
+  "main": "library.js",
+  "license": "MIT"
+}

@@ -7,10 +7,18 @@ const wukong = require('./lib/wukong');
 const Plugin = {};
 
 Plugin.init = async ({ router, middleware }) => {
+  console.log('[nodebb-plugin-wukong-chat-window] init called');
+
   helpers.setupPageRoute(router, '/messages', middleware.buildHeader, controllers.renderMessagesPage);
   helpers.setupPageRoute(router, '/messages/u/:uid', middleware.buildHeader, controllers.renderChatWindowPage);
-  helpers.setupPageRoute(router, '/chat-app', middleware.buildHeader, controllers.renderMessagesPage); // 兼容旧入口
-  helpers.setupAdminPageRoute(router, '/admin/plugins/wukong-chat-window', middleware.admin.buildHeader, controllers.renderAdmin);
+  helpers.setupPageRoute(router, '/chat-app', middleware.buildHeader, controllers.renderMessagesPage);
+
+  helpers.setupAdminPageRoute(
+    router,
+    '/admin/plugins/wukong-chat-window',
+    middleware.admin.buildHeader,
+    controllers.renderAdmin
+  );
 
   router.get('/api/chat-app/bootstrap', middleware.ensureLoggedIn, controllers.bootstrap);
   router.get('/bridge/token', middleware.ensureLoggedIn, controllers.token);

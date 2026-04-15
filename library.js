@@ -6,23 +6,42 @@ const wukong = require('./lib/wukong');
 
 const Plugin = {};
 
-Plugin.init = async ({ router }) => {
+Plugin.init = async ({ router, middleware }) => {
   console.log('[nodebb-plugin-wukong-chat-window] init called');
 
-  helpers.setupPageRoute(router, '/chat-app', [], controllers.renderChatApp);
+  helpers.setupPageRoute(
+    router,
+    '/messages',
+    [middleware.ensureLoggedIn],
+    controllers.renderMessagesPage
+  );
+
+  helpers.setupPageRoute(
+    router,
+    '/messages/u/:uid',
+    [middleware.ensureLoggedIn],
+    controllers.renderChatWindowPage
+  );
+
+  helpers.setupPageRoute(
+    router,
+    '/chat-app',
+    [middleware.ensureLoggedIn],
+    controllers.renderChatApp
+  );
 
   helpers.setupAdminPageRoute(
     router,
     '/admin/plugins/wukong-chat-window',
-    [],
+    [middleware.admin.ensureLoggedIn],
     controllers.renderAdmin
   );
 
-  router.get('/api/chat-app/bootstrap', controllers.bootstrap);
-  router.get('/bridge/token', controllers.token);
-  router.get('/bridge/get-history', controllers.getHistory);
-  router.post('/bridge/conversation/sync', controllers.conversationSync);
-  router.post('/bridge/revoke', controllers.revoke);
+  router.get('/api/chat-app/bootstrap', middleware.ensureLoggedIn, controllers.bootstrap);
+  router.get('/bridge/token', middleware.ensureLoggedIn, controllers.token);
+  router.get('/bridge/get-history', middleware.ensureLoggedIn, controllers.getHistory);
+  router.post('/bridge/conversation/sync', middleware.ensureLoggedIn, controllers.conversationSync);
+  router.post('/bridge/revoke', middleware.ensureLoggedIn, controllers.revoke);
 };
 
 Plugin.onUserCreate = async (data) => {

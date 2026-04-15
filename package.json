@@ -1,7 +1,10 @@
 {
   "name": "nodebb-plugin-wukong-chat-window",
-  "version": "0.2.0",
-  "description": "Standalone WuKong chat page for NodeBB",
+  "version": "0.2.3",
+  "description": "Standalone WuKong chat pages for NodeBB",
   "main": "library.js",
-  "license": "MIT"
+  "license": "MIT",
+  "nbbpm": {
+    "compatibility": "^4.9.0 || ^4.10.0"
+  }
 }

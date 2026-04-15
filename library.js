@@ -7,43 +7,14 @@ const wukong = require('./lib/wukong');
 const Plugin = {};
 
 Plugin.init = async ({ router, middleware }) => {
-  console.log('[wk] init: start');
-
-  helpers.setupPageRoute(
-    router,
-    '/messages',
-    [middleware.buildHeader],
-    controllers.renderMessagesPage
-  );
-
-  helpers.setupPageRoute(
-    router,
-    '/messages/u/:uid',
-    [middleware.buildHeader],
-    controllers.renderChatWindowPage
-  );
-
-  helpers.setupPageRoute(
-    router,
-    '/chat-app',
-    [middleware.buildHeader],
-    controllers.renderMessagesPage
-  );
-
-  helpers.setupAdminPageRoute(
-    router,
-    '/admin/plugins/wukong-chat-window',
-    [middleware.admin.buildHeader],
-    controllers.renderAdmin
-  );
+  helpers.setupPageRoute(router, '/chat-app', middleware.buildHeader, controllers.renderChatApp);
+  helpers.setupAdminPageRoute(router, '/admin/plugins/wukong-chat-window', middleware.admin.buildHeader, controllers.renderAdmin);
 
   router.get('/api/chat-app/bootstrap', middleware.ensureLoggedIn, controllers.bootstrap);
   router.get('/bridge/token', middleware.ensureLoggedIn, controllers.token);
   router.get('/bridge/get-history', middleware.ensureLoggedIn, controllers.getHistory);
   router.post('/bridge/conversation/sync', middleware.ensureLoggedIn, controllers.conversationSync);
   router.post('/bridge/revoke', middleware.ensureLoggedIn, controllers.revoke);
-
-  console.log('[wk] init: done');
 };
 
 Plugin.onUserCreate = async (data) => {
@@ -52,7 +23,7 @@ Plugin.onUserCreate = async (data) => {
   try {
     await wukong.ensureWukongUser(user);
   } catch (err) {
-    console.warn('[wk] auto sync user failed:', err.message);
+    console.warn('[nodebb-plugin-wukong-chat-window] auto sync user failed:', err.message);
   }
 };
 

@@ -4,9 +4,6 @@
   "description": "Standalone WuKong chat pages for NodeBB",
   "main": "library.js",
   "license": "MIT",
-  "dependencies": {
-    "axios": "^1.7.9"
-  },
   "nbbpm": {
     "compatibility": "^4.9.0 || ^4.10.0"
   }

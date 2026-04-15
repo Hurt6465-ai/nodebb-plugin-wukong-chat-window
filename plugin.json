@@ -1,8 +1,7 @@
 {
   "id": "nodebb-plugin-wukong-chat-window",
   "name": "WuKong Chat Window",
-  "description": "Same-origin standalone chat page for NodeBB + WuKongIM",
-  "library": "library.js",
+  "description": "Same-origin standalone chat pages for NodeBB + WuKongIM",
   "staticDirs": {
     "lib": "public/lib"
   },

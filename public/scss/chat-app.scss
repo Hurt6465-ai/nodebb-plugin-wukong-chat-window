@@ -1,0 +1,135 @@
+.wk-chat-page {
+  padding: 24px 16px 96px;
+  background: #f6f8fb;
+}
+
+.wk-chat-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wk-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.wk-chat-header h1 {
+  margin: 0 0 4px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.wk-chat-header p {
+  margin: 0;
+  color: #667085;
+}
+
+.wk-chat-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.wk-side-card,
+.wk-main-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.wk-side-card {
+  padding: 18px;
+}
+
+.wk-main-card {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.wk-field + .wk-field {
+  margin-top: 14px;
+}
+
+.wk-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #475467;
+  font-weight: 700;
+}
+
+.wk-readonly {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.wk-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.wk-actions.right {
+  justify-content: flex-end;
+}
+
+.wk-status {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #eef4ff;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.wk-message-list {
+  flex: 1;
+  min-height: 420px;
+  max-height: 70vh;
+  overflow: auto;
+  padding: 16px;
+  background: linear-gradient(180deg, #f8fafc, #ffffff);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.wk-msg {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.wk-msg.mine {
+  justify-content: flex-end;
+}
+
+.wk-bubble {
+  max-width: 76%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: #f1f5f9;
+  word-break: break-word;
+}
+
+.wk-msg.mine .wk-bubble {
+  background: #dbeafe;
+}
+
+.wk-composer {
+  padding: 16px;
+}
+
+@media (max-width: 900px) {
+  .wk-chat-layout {
+    grid-template-columns: 1fr;
+  }
+  .wk-message-list {
+    max-height: 50vh;
+  }
+}

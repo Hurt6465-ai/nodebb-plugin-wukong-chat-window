@@ -1,6 +1,5 @@
 'use strict';
 
-const helpers = require.main.require('./src/routes/helpers');
 const controllers = require('./lib/controllers');
 const wukong = require('./lib/wukong');
 
@@ -9,33 +8,11 @@ const Plugin = {};
 Plugin.init = async ({ router, middleware }) => {
   console.log('[nodebb-plugin-wukong-chat-window] init called');
 
-  helpers.setupPageRoute(
-    router,
-    '/messages',
-    [middleware.ensureLoggedIn],
-    controllers.renderMessagesPage
-  );
+  router.get('/chat-app', middleware.ensureLoggedIn, middleware.buildHeader, controllers.renderChatApp);
+  router.get('/messages', middleware.ensureLoggedIn, middleware.buildHeader, controllers.renderMessagesPage);
+  router.get('/messages/u/:uid', middleware.ensureLoggedIn, middleware.buildHeader, controllers.renderChatWindowPage);
 
-  helpers.setupPageRoute(
-    router,
-    '/messages/u/:uid',
-    [middleware.ensureLoggedIn],
-    controllers.renderChatWindowPage
-  );
-
-  helpers.setupPageRoute(
-    router,
-    '/chat-app',
-    [middleware.ensureLoggedIn],
-    controllers.renderChatApp
-  );
-
-  helpers.setupAdminPageRoute(
-    router,
-    '/admin/plugins/wukong-chat-window',
-    [middleware.admin.ensureLoggedIn],
-    controllers.renderAdmin
-  );
+  router.get('/admin/plugins/wukong-chat-window', middleware.admin.buildHeader, controllers.renderAdmin);
 
   router.get('/api/chat-app/bootstrap', middleware.ensureLoggedIn, controllers.bootstrap);
   router.get('/bridge/token', middleware.ensureLoggedIn, controllers.token);
@@ -47,6 +24,7 @@ Plugin.init = async ({ router, middleware }) => {
 Plugin.onUserCreate = async (data) => {
   const user = (data && data.user) || data || {};
   if (!user.uid) return;
+
   try {
     await wukong.ensureWukongUser(user);
   } catch (err) {

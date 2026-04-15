@@ -6,18 +6,34 @@ const wukong = require('./lib/wukong');
 
 const Plugin = {};
 
-Plugin.init = async (params) => {
-  const router = params.router;
-  const middleware = params.middleware;
+Plugin.init = async ({ router, middleware }) => {
+  console.log('[wk] init: start');
 
-  helpers.setupPageRoute(router, '/messages', middleware.buildHeader, controllers.renderMessagesPage);
-  helpers.setupPageRoute(router, '/messages/u/:uid', middleware.buildHeader, controllers.renderChatWindowPage);
-  helpers.setupPageRoute(router, '/chat-app', middleware.buildHeader, controllers.renderMessagesPage);
+  helpers.setupPageRoute(
+    router,
+    '/messages',
+    [middleware.buildHeader],
+    controllers.renderMessagesPage
+  );
+
+  helpers.setupPageRoute(
+    router,
+    '/messages/u/:uid',
+    [middleware.buildHeader],
+    controllers.renderChatWindowPage
+  );
+
+  helpers.setupPageRoute(
+    router,
+    '/chat-app',
+    [middleware.buildHeader],
+    controllers.renderMessagesPage
+  );
 
   helpers.setupAdminPageRoute(
     router,
     '/admin/plugins/wukong-chat-window',
-    middleware.admin.buildHeader,
+    [middleware.admin.buildHeader],
     controllers.renderAdmin
   );
 
@@ -26,6 +42,8 @@ Plugin.init = async (params) => {
   router.get('/bridge/get-history', middleware.ensureLoggedIn, controllers.getHistory);
   router.post('/bridge/conversation/sync', middleware.ensureLoggedIn, controllers.conversationSync);
   router.post('/bridge/revoke', middleware.ensureLoggedIn, controllers.revoke);
+
+  console.log('[wk] init: done');
 };
 
 Plugin.onUserCreate = async (data) => {
@@ -34,18 +52,8 @@ Plugin.onUserCreate = async (data) => {
   try {
     await wukong.ensureWukongUser(user);
   } catch (err) {
-    console.warn('[nodebb-plugin-wukong-chat-window] auto sync user failed:', err.message);
+    console.warn('[wk] auto sync user failed:', err.message);
   }
-};
-
-Plugin.addAdminNavigation = async (header) => {
-  header.plugins = header.plugins || [];
-  header.plugins.push({
-    route: '/plugins/wukong-chat-window',
-    icon: 'fa-comments',
-    name: 'Wukong Chat Window',
-  });
-  return header;
 };
 
 module.exports = Plugin;
